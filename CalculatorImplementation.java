@@ -7,6 +7,7 @@ import java.util.Stack;
 public class CalculatorImplementation extends UnicastRemoteObject implements Calculator {
     private static final long serialVersionUID = 7052739515724697623L;
 	private Stack<Integer> stack;
+	
     protected CalculatorImplementation() throws RemoteException {
         stack = new Stack<>();
     }
@@ -18,6 +19,7 @@ public class CalculatorImplementation extends UnicastRemoteObject implements Cal
 
     @Override
     public synchronized void pushOperation(String operator) throws RemoteException {
+    	//empty stack does not call 
         if (stack.isEmpty()) return;
 
         int result;
@@ -35,33 +37,16 @@ public class CalculatorImplementation extends UnicastRemoteObject implements Cal
                 result = gcd(stack);
                 break;
             default:
-                throw new IllegalArgumentException("Invalid operator");
+                throw new RemoteException("Invalid operator");
         }
         stack.clear();
         stack.push(result);
     }
-
-    @Override
-    public synchronized int pop() throws RemoteException {
-        return stack.pop();
-    }
-
-    @Override
-    public synchronized boolean isEmpty() throws RemoteException {
-        return stack.isEmpty();
-    }
-
-    @Override
-    public synchronized int delayPop(int millis) throws RemoteException {
-        try {
-            Thread.sleep(millis);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
-        return pop();
-    }
-
+    
+    //implementation for LCM and GCD//
+    
     private int gcd(Stack<Integer> stack) {
+    	//reduce to integers
         return stack.stream().reduce(this::gcd).orElse(0);
     }
 
@@ -75,10 +60,37 @@ public class CalculatorImplementation extends UnicastRemoteObject implements Cal
     }
 
     private int lcm(Stack<Integer> stack) {
+    	//reduce to integers
         return stack.stream().reduce(1, this::lcm);
     }
 
     private int lcm(int a, int b) {
         return a * (b / gcd(a, b));
     }
+
+    @Override
+    public synchronized int pop() throws RemoteException {
+    	//throw exception if attempt to pop when stack is empty
+    	 if (stack.isEmpty()) {
+             throw new RemoteException("Stack is empty.");
+         }
+        return stack.pop();
+    }
+
+    @Override
+    public synchronized boolean isEmpty() throws RemoteException {
+        return stack.isEmpty();
+    }
+
+    @Override
+    public synchronized int delayPop(int millis) throws RemoteException {
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException e) {
+        	throw new RemoteException("Interrupted while delaying pop.", e);
+        }
+        return pop();
+    }
+
+    
 }

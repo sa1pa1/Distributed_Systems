@@ -24,7 +24,7 @@ public class CalculatorClient {
 
 		private static void OneClientTest(Calculator stub) throws Exception {
 			//testing isEmpty(): TRUE
-			System.out.println("Empty: " + stub.isEmpty());
+			System.out.println("begin stack isEmpty: " + stub.isEmpty());
 			//testing pop()
 			stub.pushValue(8);
 			System.out.println("Pop: " + stub.pop());
@@ -58,13 +58,13 @@ public class CalculatorClient {
             stub.pushValue(40);
             stub.pushOperation("lcm");
             System.out.println("LCM: " + stub.pop()); //should be 40 
-            System.out.println("Empty: " + stub.isEmpty());
+    
             stub.pushValue(50);
-            
+            System.out.println("before pop isEmpty: " + stub.isEmpty());
             System.out.println("Delayed pop: " + stub.delayPop(2000));
             
           //testing isEmpty(): FALSE
-			System.out.println("Empty: " + stub.isEmpty());
+			System.out.println("after pop isEmpty: " + stub.isEmpty());
 			System.out.println("END OF ONE CLIENT TEST");
             
 
@@ -75,7 +75,7 @@ public class CalculatorClient {
 		//testing more than 3 clients
 		private static void MultClientTest() {
 	        List<Thread> clients = new ArrayList<>();
-	        for (int i = 0; i < 3; i++) {
+	        for (int i = 0; i < 4; i++) {
 	        	String clientID = "Client" + (i+1);
 	            Thread clientThread = new Thread(() -> {
 	                try {
@@ -88,10 +88,9 @@ public class CalculatorClient {
 	                    // Test pushOperation
 	                    
 	                    stub.pushValue(5);
-	                    stub.pushOperation("min");
-	                    System.out.println(clientID+" pushed operation 'min':" + stub.pop());
-
-	                
+	                    stub.pushOperation("max");
+	                    System.out.println(clientID+" pushed operation 'min':" +stub.pop());
+	                    
 	                    // Test delayPop
 	                    stub.pushValue(20);
 	                    System.out.println(clientID+" delayed pop: " + stub.delayPop(1000));
@@ -103,15 +102,14 @@ public class CalculatorClient {
 	            });
 	            clients.add(clientThread);
 	            clientThread.start();
+	            for (Thread client : clients) {
+		            try {//current thread wait for client to finish
+		                client.join();
+		            } catch (InterruptedException e) {
+		                e.printStackTrace();
+		            }
 	        }
-
-	        
-	        for (Thread clientThread : clients) {
-	            try {
-	                clientThread.join();
-	            } catch (InterruptedException e) {
-	                e.printStackTrace();
-	            }
 	        }
+            System.out.println("END OF MULTIPLE CLIENT TEST");
 	    }
 		}
