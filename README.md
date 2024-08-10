@@ -8,7 +8,7 @@ Step (1): Compile the documents using command "javac *.java"
 
 Step (2) Check that the port is not being used using command "lsof -i :1099 "
 
-Step (3) If it is, use command "kill <PID>"
+Step (3) If it is, use command "kill <<PID>>"
 
 Start the JAVA RMI: 
  Run the command "rmiregistry &", this should run the program on port 1099
