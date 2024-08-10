@@ -1,6 +1,6 @@
 Assignment 1 
 (BONUS MARK IMPLEMENTED)
-In this testing, I have divided into two parts. 
+
 Setting up environment:
 Step (1): Compile the documents using command "javac *.java" 
           This should compile all the provided files. 
