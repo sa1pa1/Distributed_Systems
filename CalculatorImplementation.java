@@ -83,6 +83,10 @@ public class CalculatorImplementation extends UnicastRemoteObject implements Cal
     //SLEEP THREAD: allow a delay in Pop for millis time. Input: millis, output: wait millis milliseconds. 
     @Override
     public synchronized int delayPop(int millis) throws RemoteException {
+        if (millis < 0) {
+            throw new RemoteException("Invalid milliseconds: cannot be negative time");
+
+        }
         try {
             Thread.sleep(millis);
         } catch (InterruptedException e) {
