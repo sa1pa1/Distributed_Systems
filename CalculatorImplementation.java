@@ -50,6 +50,9 @@ public class CalculatorImplementation extends UnicastRemoteObject implements Cal
     	//implementation, receive two values from stack, perform operation. 
     private int gcd(int a, int b) {
         while (b != 0) {
+            if (b<0){
+                b = -b;
+            }
             int temp = b;
             b = a % b;
             a = temp;

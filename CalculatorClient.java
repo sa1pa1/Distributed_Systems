@@ -141,14 +141,14 @@ public class CalculatorClient {
         System.out.println("LCM: " + stub.pop()+"\n");
 
         System.out.println("LCM test 4: prime numbers");
-        System.out.println("Client pushed 0 and 20");
+        System.out.println("Client pushed 13 and 211");
         stub.pushValue(13);
         stub.pushValue(211);
         stub.pushOperation("lcm");
         System.out.println("LCM: " + stub.pop() +"\n");
 
         System.out.println("LCM test 5: value against 1");
-        System.out.println("Client pushed 0 and 20");
+        System.out.println("Client pushed 1 and 20");
         stub.pushValue(1);
         stub.pushValue(20);
         stub.pushOperation("lcm");
