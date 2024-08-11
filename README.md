@@ -6,15 +6,15 @@ Step (1): Compile the documents using command "javac *.java"
           This should compile all the provided files. 
             
 
-Step (2) Check that the port is not being used using command "lsof -i :1099 "
+Step (2) Check that the port is not being used using command "lsof -i :5100 "
 
 Step (3) If it is, use command "kill ,,PID,,"
 
 Start the JAVA RMI: 
- Run the command "rmiregistry &", this should run the program on port 1099
+ Run the command "rmiregistry &", this should run the program on port 5100
 
 Start the Server: 
- Run the command "java CalculatorServer", this should start the server. The following message should appear:
+ Run the command "java CalculatorServer" in a different terminal, this should start the server. The following message should appear:
 calculator/Client1 is ready.
 calculator/Client2 is ready.
 calculator/Client3 is ready.
