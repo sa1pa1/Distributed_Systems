@@ -12,13 +12,12 @@ public class CalculatorServer {
              String clientID = "calculator/Client" + i;
              Calculator stub = new CalculatorImplementation();
              reg.rebind(clientID, stub);
-             System.out.println(clientID + " is ready.");
+             System.out.println(clientID + " ready.");
          }
 
 	    System.err.println("Server ready");
 	} catch (Exception e) {
-	    System.err.println("Server exception: " + e.toString());
-	    e.printStackTrace();
+	    System.err.println("Server exception: " + e.getMessage());
 	}
     }
 }
